@@ -1,0 +1,242 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 146 50% 4%;
+    --foreground: 140 20% 90%;
+    --card: 146 50% 6%;
+    --card-foreground: 140 20% 90%;
+    --muted: 146 30% 12%;
+    --muted-foreground: 140 10% 60%;
+    --primary: 142 70% 45%;
+    --primary-foreground: 0 0% 100%;
+    --border: 146 30% 15%;
+    --input: 146 30% 15%;
+    --ring: 142 70% 45%;
+    --radius: 0.6rem;
+  }
+
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.35);
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.6);
+  }
+}
+
+.landing-shell header {
+  animation: navDrop 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes navDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.field-scanline {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 68px,
+      rgba(250, 204, 21, 0.08) 69px 70px
+    ),
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(96, 239, 255, 0.18) 48%,
+      transparent 58%
+    );
+  mix-blend-mode: screen;
+  opacity: 0.55;
+  animation: scanField 5.5s ease-in-out infinite;
+}
+
+@keyframes scanField {
+  0% {
+    transform: translateY(-18%);
+    opacity: 0.18;
+  }
+  45%, 55% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(18%);
+  }
+}
+
+.hero-data-tile {
+  position: absolute;
+  z-index: 18;
+  min-width: 7.5rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid rgba(187, 247, 208, 0.28);
+  border-radius: 8px;
+  background: rgba(2, 13, 5, 0.68);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  animation: tileFloat 4.2s ease-in-out infinite;
+}
+
+.hero-data-tile span,
+.hero-data-tile strong {
+  display: block;
+}
+
+.hero-data-tile span {
+  color: rgba(187, 247, 208, 0.72);
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.hero-data-tile strong {
+  margin-top: 0.2rem;
+  color: #fef08a;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.hero-data-tile--soil {
+  left: clamp(1rem, 8vw, 8rem);
+  top: 28%;
+}
+
+.hero-data-tile--rain {
+  right: clamp(1rem, 9vw, 9rem);
+  top: 34%;
+  animation-delay: 0.8s;
+}
+
+.hero-data-tile--yield {
+  left: 50%;
+  bottom: 18%;
+  transform: translateX(-50%);
+  animation-delay: 1.4s;
+}
+
+@keyframes tileFloat {
+  0%, 100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -14px;
+  }
+}
+
+.stat-item {
+  animation: statRise 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-timeline: view();
+  animation-range: entry 10% cover 32%;
+}
+
+@keyframes statRise {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.feature-card {
+  position: relative;
+  overflow: hidden;
+  animation: featureReveal 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-timeline: view();
+  animation-range: entry 8% cover 28%;
+}
+
+.feature-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 0%, rgba(96, 239, 255, 0.16) 45%, transparent 58%);
+  transform: translateX(-120%);
+  transition: transform 0.65s ease;
+}
+
+.feature-card:hover::after {
+  transform: translateX(120%);
+}
+
+@keyframes featureReveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 760px) {
+  .hero-data-tile {
+    min-width: 6.5rem;
+    padding: 0.65rem 0.75rem;
+  }
+
+  .hero-data-tile--soil {
+    top: 22%;
+  }
+
+  .hero-data-tile--rain {
+    top: 68%;
+  }
+
+  .hero-data-tile--yield {
+    bottom: 10%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-shell header,
+  .field-scanline,
+  .hero-data-tile,
+  .stat-item,
+  .feature-card {
+    animation: none;
+  }
+
+  .feature-card::after {
+    display: none;
+  }
+}
